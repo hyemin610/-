@@ -1,7 +1,15 @@
 import "./App.css";
+
+import { Routes, Route, BrowserRouter, Link } from "react-router-dom";
+import Main from "./pages/Main";
+import Product from "./pages/Product";
+import Products from "./pages/Products";
+import Layout from "./common/Layout";
+
 import React from "react";
 import { useState } from "react";
 import { nanoid } from "nanoid";
+
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
@@ -25,45 +33,66 @@ function App() {
   };
 
   return (
-    <>
-      <input value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
-      <button
-        onClick={() => {
-          //todos는 배열인데 newTodo는 문자열이니까 newTodo를 객체로 변환하는 const newTodoItem= { id: nanoid(), content: newTodo };setTodos([...todos, newTodoItem]) 이 과정이 필요함
-          const newTodoItem = { id: nanoid(), content: newTodo, like: 0 };
-          setTodos([...todos, newTodoItem]);
-          setNewTodo("");
-        }}
-      >
-        입력하기
-      </button>
 
-      {todos.map((할일) => (
-        <div key={할일.id}>
-          <div>
-            <div>{할일.content}</div>
-            <button
-              onClick={() => {
-                const 삭제후새로운배열 = todos.filter((todo) => {
-                  return todo.id !== 할일.id;
-                });
-                setTodos(삭제후새로운배열);
-              }}
-            >
-              삭제하기
-            </button>
-          </div>
-          <span
-            onClick={() => {
-              //likeUp의 할일.id가 들어가면 위에 있던 게 (일.id === 할일.id) 로 비교가 되는 것 맞나용?
-              likeUp(할일.id);
-            }}
-          >
-            👍{할일.like}
-          </span>
-        </div>
-      ))}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Main />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<Product />} />
+          <Route
+            path="*"
+            element={
+              <>
+                <div>없는 페이지입니다</div>
+                <Link to="/">홈으로 이동</Link>
+              </>
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+=======
+//     <>
+//       <input value={newTodo} onChange={(e) => setNewTodo(e.target.value)} />
+//       <button
+//         onClick={() => {
+//           //todos는 배열인데 newTodo는 문자열이니까 newTodo를 객체로 변환하는 const newTodoItem= { id: nanoid(), content: newTodo };setTodos([...todos, newTodoItem]) 이 과정이 필요함
+//           const newTodoItem = { id: nanoid(), content: newTodo, like: 0 };
+//           setTodos([...todos, newTodoItem]);
+//           setNewTodo("");
+//         }}
+//       >
+//         입력하기
+//       </button>
+
+//       {todos.map((할일) => (
+//         <div key={할일.id}>
+//           <div>
+//             <div>{할일.content}</div>
+//             <button
+//               onClick={() => {
+//                 const 삭제후새로운배열 = todos.filter((todo) => {
+//                   return todo.id !== 할일.id;
+//                 });
+//                 setTodos(삭제후새로운배열);
+//               }}
+//             >
+//               삭제하기
+//             </button>
+//           </div>
+//           <span
+//             onClick={() => {
+//               //likeUp의 할일.id가 들어가면 위에 있던 게 (일.id === 할일.id) 로 비교가 되는 것 맞나용?
+//               likeUp(할일.id);
+//             }}
+//           >
+//             👍{할일.like}
+//           </span>
+//         </div>
+//       ))}
+//     </>
+
   );
 }
 
